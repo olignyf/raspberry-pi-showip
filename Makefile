@@ -2,7 +2,7 @@ TYPE=APPLICATION
 
 DEPEND=dependencies
 
-SRC=$(wildcard *.c)
+SRC=$(wildcard toolbox-*.c)
 
 CFLAGS+=-D_FILE_OFFSET_BITS=64
 LDFLAGS+=-L./libs
@@ -18,13 +18,16 @@ OBJS+= toolbox.o
 
 TARGET=standalone
 
-all: $(DEPEND) $(TARGET)
+all: $(DEPEND) $(TARGET) library
 
 $(TARGET): $(OBJS)
 	$(CC) -o $(TARGET) $(OBJS) $(LDFLAGS)
 
+library: 
+	gcc -Wall `pkg-config --cflags gtk+-2.0 lxpanel` -shared -fPIC showip.c toolbox.c toolbox-char-array.c toolbox-line-parser.c toolbox-text-buffer-reader.c -o showip.so `pkg-config --libs lxpanel`
+
 clean:
-	rm -f $(OBJS) $(TARGET) $(DEPEND)
+	rm -f $(OBJS) showip.so $(TARGET) $(DEPEND)
 
 $(DEPEND): $(SRC)
 	@echo 'Creating dependencies files'
