@@ -77,7 +77,7 @@ static gboolean update_display_timeout(gpointer user_data)
 	return TRUE; /* repeat later */
 }
 
-GtkWidget *test_constructor(LXPanel *panel, config_setting_t *settings)
+GtkWidget *showip_constructor(LXPanel *panel, config_setting_t *settings)
 {
 	/* panel is a pointer to the panel and
 	 settings is a pointer to the configuration data. */
@@ -128,7 +128,7 @@ GtkWidget *test_constructor(LXPanel *panel, config_setting_t *settings)
 	return p;
 }
 
-FM_DEFINE_MODULE(lxpanel_gtk, test)
+FM_DEFINE_MODULE(lxpanel_gtk, showip)
 
 /* Plugin descriptor. */
 LXPanelPluginInit fm_module_init_lxpanel_gtk = {
@@ -136,6 +136,6 @@ LXPanelPluginInit fm_module_init_lxpanel_gtk = {
 	.description = "Display current IP address.",
 
 	// assigning our functions to provided pointers.
-	.new_instance = test_constructor
+	.new_instance = showip_constructor
 };
 
