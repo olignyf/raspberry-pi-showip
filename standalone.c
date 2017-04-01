@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-
+	int iret;
 	char ip[256];
 	char mac[256];
 	char subnet[256];
