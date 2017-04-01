@@ -229,6 +229,8 @@ int C_GetNetworkInformation(char * machine_ip,
 							   char * TX_errors,  
 							   char * TX_bytes,  
 							   char * collisions,
+							   char * ifconfig, /*INOUT*/
+							   int ifconfig_size,
 							   const char * which_interface );
 #endif
 

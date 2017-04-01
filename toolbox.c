@@ -1481,6 +1481,8 @@ int C_GetNetworkInformation(char * machine_ip,
 							   char * TX_errors,
 							   char * TX_bytes,
 							   char * collisions,
+							   char * ifconfig, /*INOUT*/
+							   int ifconfig_size,
 							   const char * which_interface)
 {
 	char temp[256];
@@ -1545,13 +1547,20 @@ int C_GetNetworkInformation(char * machine_ip,
 	}
 #endif
 	
+	if (ifconfig && ifconfig[0] != '\0')
+	{
+		insider = ifconfig;
+	}
+	else
+	{
 #if ( defined(_MSC_VER) )
-	strcpy(command,"ipconfig /all");
-	iret = C_System(command, &insider, &status);
+		strcpy(command,"ipconfig /all");
+		iret = C_System(command, &insider, &status);
 #else
-	strcpy(command,"ifconfig");
-	iret = C_System(command, &insider, &status);
+		strcpy(command,"ifconfig");
+		iret = C_System(command, &insider, &status);
 #endif
+	}
 
 	if ( iret <= 0 )
 	{
@@ -1563,6 +1572,12 @@ int C_GetNetworkInformation(char * machine_ip,
 	{
 		return -11;
 		// C_System error
+	}
+	
+	if (ifconfig && ifconfig[0] == '\0')
+	{
+		strncpy(ifconfig, insider, ifconfig_size-1);
+		ifconfig[ifconfig_size-1] = '\0';
 	}
 
 	if ( machine_ip ) machine_ip[0] = '\0';

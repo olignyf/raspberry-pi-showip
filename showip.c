@@ -64,8 +64,9 @@ static void update_display(ShowIp *pPlugin)
 	char TX_errors[256];
 	char TX_bytes[256];
 	char collisions[256];
+	char ifconfig[20000] = "";
 	printf("=eth0:");
-	C_GetNetworkInformation(ip, subnet, broadcast, mac, RX_packets, RX_errors, RX_bytes, TX_packets, TX_errors, TX_bytes, collisions, NULL);
+	C_GetNetworkInformation(ip, subnet, broadcast, mac, RX_packets, RX_errors, RX_bytes, TX_packets, TX_errors, TX_bytes, collisions, ifconfig, sizeof(ifconfig), NULL);
 	printf("ip(%s)\n",ip);
 	printf("subnet(%s)\n",subnet);
 	printf("broadcast(%s)\n",broadcast);
@@ -80,7 +81,7 @@ static void update_display(ShowIp *pPlugin)
 	if (ip[0] == '\0')
 	{
 		printf("=wlan0:");
-		iret = C_GetNetworkInformation(ip, subnet, broadcast, mac, RX_packets, RX_errors, RX_bytes, TX_packets, TX_errors, TX_bytes, collisions, "wlan0");
+		iret = C_GetNetworkInformation(ip, subnet, broadcast, mac, RX_packets, RX_errors, RX_bytes, TX_packets, TX_errors, TX_bytes, collisions, ifconfig, sizeof(ifconfig), "wlan0");
 		if (iret == 0)
 		{
 			printf("no wlan0");
