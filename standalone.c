@@ -33,7 +33,11 @@ int main(int argc, char *argv[])
 
 	printf("=wlan0:");
 	iret = C_GetNetworkInformation(ip, subnet, broadcast, mac, RX_packets, RX_errors, RX_bytes, TX_packets, TX_errors, TX_bytes, collisions, ifconfig, sizeof(ifconfig), "wlan0");
-	if (iret == 0)
+	if (iret < 0)
+	{
+		printf("failed to get wlan0, iret(%d)", iret);
+	}
+	else if (iret == 0)
 	{
 		printf("no wlan0");
 	}
