@@ -215,6 +215,9 @@ int C_MoveFileEx(const char * source, const char * destination, int flags); // f
 
 
 #if defined(__C_TOOLBOX_TEXT_BUFFER_READER_H__)
+// Returns 0 if not found and which_interface was provided
+// Set "which_interface" to NULL or empty string to not specify any interface
+// otherwise will pickup first interface (normally first wired interface)
 int C_GetNetworkInformation(char * machine_ip,
 							   char * subnet,
 							   char * broadcast,
@@ -225,7 +228,8 @@ int C_GetNetworkInformation(char * machine_ip,
 							   char * TX_packets, 
 							   char * TX_errors,  
 							   char * TX_bytes,  
-							   char * collisions );
+							   char * collisions,
+							   const char * which_interface );
 #endif
 
 #if defined(__TOOLBOX_NETWORK_H__)

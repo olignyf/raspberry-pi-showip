@@ -558,7 +558,7 @@ static void free_row(char ** row, unsigned int * buffersize, int col_max)
 	}
 }
 
-
+// not real regexp yet, just supports .*
 int regexp_match(const char * const line, const char * const pattern)
 {
 	int iret;

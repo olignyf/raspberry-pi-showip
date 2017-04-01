@@ -1480,7 +1480,8 @@ int C_GetNetworkInformation(char * machine_ip,
 							   char * TX_packets,
 							   char * TX_errors,
 							   char * TX_bytes,
-							   char * collisions )
+							   char * collisions,
+							   const char * which_interface)
 {
 	char temp[256];
 	char command[256];
@@ -1581,10 +1582,25 @@ int C_GetNetworkInformation(char * machine_ip,
 		return -12;
 		// probably the command was good or there is no network adaptor.
 	}
+	
+	if (which_interface != NULL && which_interface[0] != '\0')
+	{
+		strcpy(line, "\n");
+		strcat(line, which_interface);
+		position = strstr(insider, line);
+		if (position)
+		{
+			insider = position;
+		}
+		else
+		{
+			return 0; // not found
+		}
+	}
 
 	charArray_Constructor(&array,0);
 	lineParser_Constructor(&parser);
-
+	
 #if ( defined(_MSC_VER) )
 	buffer_to_array(insider, &array);
 	//file_to_array("g:\\tmp\\ifconfig.txt", &array); 
