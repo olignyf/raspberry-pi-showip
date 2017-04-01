@@ -1550,6 +1550,7 @@ int C_GetNetworkInformation(char * machine_ip,
 	if (ifconfig && ifconfig[0] != '\0')
 	{
 		insider = ifconfig;
+		iret = 1;
 	}
 	else
 	{
@@ -1600,6 +1601,7 @@ int C_GetNetworkInformation(char * machine_ip,
 	
 	if (which_interface != NULL && which_interface[0] != '\0')
 	{
+		printf("will seek to %s\n", which_interface);
 		strcpy(line, "\n");
 		strcat(line, which_interface);
 		position = strstr(insider, line);
