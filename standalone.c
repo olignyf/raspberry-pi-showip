@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 	char TX_errors[256];
 	char TX_bytes[256];
 	char collisions[256];
-	printf("=eth0:");	
+	printf("=eth0:");
 	C_GetNetworkInformation(ip, subnet, broadcast, mac, RX_packets, RX_errors, RX_bytes, TX_packets, TX_errors, TX_bytes, collisions, NULL);
 	printf("ip(%s)\n",ip);
 	printf("subnet(%s)\n",subnet);
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	printf("TX_bytes(%s)\n",TX_bytes);
 	printf("collisions(%s)\n",collisions);
 
-	printf("=wlan0:")	
+	printf("=wlan0:");
 	iret = C_GetNetworkInformation(ip, subnet, broadcast, mac, RX_packets, RX_errors, RX_bytes, TX_packets, TX_errors, TX_bytes, collisions, "wlan0");
 	if (iret == 0)
 	{
