@@ -1,5 +1,5 @@
-# raspberry-showip
-Lxpanel plugin to show eth0 IP address on top bar
+# ShowIP
+Lxpanel plugin to show eth0/wlan0 IP address on top bar
 
 # Installation
 ```
