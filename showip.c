@@ -48,7 +48,7 @@ typedef struct
 static void update_display(ShowIp *pPlugin)
 {
 	char buffer [60];
-	int i;
+	int i, iret;
 	int temp;
 	GdkColor color;
 	gchar *separator;
