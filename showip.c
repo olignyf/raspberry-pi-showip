@@ -82,9 +82,9 @@ static void update_display(ShowIp *pPlugin)
 	{
 		printf("=wlan0:");
 		iret = C_GetNetworkInformation(ip, subnet, broadcast, mac, RX_packets, RX_errors, RX_bytes, TX_packets, TX_errors, TX_bytes, collisions, ifconfig, sizeof(ifconfig), "wlan0");
-		if (iret == 0)
+		if (iret <= 0)
 		{
-			printf("no wlan0");
+			printf("no wlan0, iret(%d)\n", iret);
 		}
 		else
 		{
