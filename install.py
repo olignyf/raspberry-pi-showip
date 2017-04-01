@@ -6,6 +6,7 @@ import time
 import json
 from datetime import datetime, timedelta
 import re
+from subprocess import call
 import signal
 import select # for select.select
 import inspect
@@ -31,6 +32,8 @@ def main():
     
     beginTime = time.time()
     
+    call(["cp", "showip.so", "/usr/lib/arm-linux-gnueabihf/lxpanel/plugins/"])
+   
     CONFIG = None
     PATH = "../../.config/lxpanel/LXDE-pi/panels/panel"
     try:
@@ -58,6 +61,8 @@ def main():
     f = open(PATH, "w")
     f.write(CONFIG)
     f.close()
+     
+    call(["lxpanelctl", "restart"])
      
     # produce report
     elapsedTime = time.time() - beginTime
