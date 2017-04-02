@@ -28,6 +28,7 @@ https://wiki.lxde.org/en/How_to_write_plugins_for_LXPanel
 
 # Some music to keep you entertained
 https://youtu.be/RarDSAz_jGs
+https://youtu.be/9UaJAnnipkY
 
 # License
 Free for educational use.
