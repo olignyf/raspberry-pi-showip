@@ -3,7 +3,7 @@ Lxpanel plugin to show eth0/wlan0 IP address on top bar
 
 # Installation
 ```
-$> sudo apt-get --assume-yes install libfm-dev libfm-gtk-dev
+$> sudo apt-get --assume-yes install libfm-dev libfm-gtk-dev libgtk2.0-dev
 $> git clone https://github.com/olignyf/raspberry-pi-showip.git
 $> cd raspberry-pi-showip
 $> make

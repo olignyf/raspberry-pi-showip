@@ -4,7 +4,8 @@ DEPEND=dependencies
 
 SRC=$(wildcard toolbox-*.c)
 
-CFLAGS+=-D_FILE_OFFSET_BITS=64
+CFLAGS+=-D_FILE_OFFSET_BITS=64 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include
+
 LDFLAGS+=-L./libs
 
 OBJS = standalone.o

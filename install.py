@@ -16,7 +16,7 @@ import common
 EOL = "\r\n"
 
 def signal_handler(signal, frame):
-    print "You pressed exit"
+    print ("You pressed exit")
     exit(0)
 
 def cleanAndExit():
@@ -32,31 +32,37 @@ def main():
     
     beginTime = time.time()
     
-    call(["cp", "showip.so", "/usr/lib/arm-linux-gnueabihf/lxpanel/plugins/"])
-   
+    # old pi3 call(["cp", "showip.so", "/usr/lib/arm-linux-gnueabihf/lxpanel/plugins/"])
+    call(["cp", "showip.so", "/usr/lib/aarch64-linux-gnu/lxpanel/plugins"])
+    print('after copying');
     CONFIG = None
-    PATH = "../../.config/lxpanel/LXDE-pi/panels/panel"
+    PATH = "/etc/xdg/lxpanel/LXDE/panels/panel"
     try:
         # 
         CONFIG = open(PATH, 'r').read() 
     except:
-        print '' # no problem yet
-    
+        print('FIRST FAIL OPENING CONFIG') # no problem yet
+    print('after first read');
+    print(CONFIG);
     if CONFIG == None:
         try:
-            PATH = "../.config/lxpanel/LXDE-pi/panels/panel"
+            PATH = "/etc/xdg/lxpanel/LXDE-pi/panels/panel"
             CONFIG = open(PATH, 'r').read() 
         except:
-            print "Failed to open LXDE-pi/panels/panel"; 
+            print ("Failed to open LXDE-pi/panels/panel"); 
             return -1
     
     MYPLUGIN = 'Plugin {\n  type=showip\n  Config {\n  }\n}'
     index = CONFIG.find(MYPLUGIN)
     if index >= 0:
-        print 'Already done'
+        print ('Already done')
         return 0
+    print(CONFIG)
+    CONFIG = common.ReplaceBetween(CONFIG, 'VolumeUpKey = XF86AudioRaiseVolume\n    }\n}\n', 'Plugin {\n    type = tray\n}\n', MYPLUGIN+"\n")
     
-    CONFIG = common.ReplaceBetween(CONFIG, 'Plugin {\n  type=volumealsa\n  Config {\n  }\n}\n', 'Plugin', MYPLUGIN+"\n")
+    if (CONFIG == '' or CONFIG == None):
+        print('ERROR: failed to parse config');
+        exit(1);
     
     f = open(PATH, "w")
     f.write(CONFIG)
@@ -66,7 +72,7 @@ def main():
      
     # produce report
     elapsedTime = time.time() - beginTime
-    print "[FINISH] elapsedTime:" + str(elapsedTime)  
+    print ("[FINISH] elapsedTime:" + str(elapsedTime)  )
 
 if __name__ == '__main__':
     main()

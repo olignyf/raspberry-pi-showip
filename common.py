@@ -16,7 +16,7 @@ def ExtractBetween(source, start, end):
         if index >= 0:
             return result[0:index]
     
-    return null
+    return None
 
 
 def ReplaceBetween(source, start, end, replacement):
@@ -24,12 +24,12 @@ def ReplaceBetween(source, start, end, replacement):
     if i_start >= 0:
         trailing = source[i_start+len(start):]
         i_end = trailing.find(end)
-        print 'i_end:'+str(i_end)
+        print ('i_end:'+str(i_end))
         if i_end >= 0:
-            print 'end:' + trailing[i_end:]
+            print ('end:' + trailing[i_end:])
             return source[0:i_start+len(start)] + replacement + trailing[i_end:]
     
-    return null
+    return None
 
 
 
