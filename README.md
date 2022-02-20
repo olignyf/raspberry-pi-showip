@@ -10,7 +10,9 @@ $> make
 $> sudo python install.py
 ```
 # Manual Installation 
+
 Compile source code (directly on Raspberry Pi) => showip.so is produced
+
 ## Raspberry 4
 Paste it in /usr/lib/aarch64-linux-gnu/lxpanel/plugins/showip.so 
 ```
@@ -22,17 +24,18 @@ Paste it in /usr/lib/arm-linux-gnueabihf/lxpanel/plugins/showip.so
 $> sudo cp showip.so /usr/lib/arm-linux-gnueabihf/lxpanel/plugins/
 ```
 
-## Raspberry 3
-Paste it in /usr/lib/arm-linux-gnueabihf/lxpanel/plugins/showip.so 
-```
-$> sudo cp showip.so /usr/lib/arm-linux-gnueabihf/lxpanel/plugins/
-```
+## Restart lxpanel
 Restart lxpanel with the following under X, or reboot:
 ```
 %> sudo lxpanelctl restart
 ```
+
 But the panel won't appear yet, you have to add it in place by right-clicking on the top bar.
-Programatically you can edit ~/.config/lxpanel/LXDE-pi/panels
+Programmatically you can edit ~/.config/lxpanel/LXDE-pi/panels
+There is a python install script which may work in your case:
+```
+$> sudo python install.py
+```
 
 # Troubleshooting
 ```
@@ -46,10 +49,6 @@ https://github.com/olignyf/pisetup
 # Developpers Documentation
 https://wiki.lxde.org/en/How_to_write_plugins_for_LXPanel
 
-# Some music to keep you entertained
-https://youtu.be/RarDSAz_jGs
-https://youtu.be/9UaJAnnipkY
-
 # License
-Free for educational use.
-5$ fee for redistribution and/or commercial use.
+5$US fee for commercial use per unit using.
+20$US one-time fee for code reuse.
