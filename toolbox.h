@@ -58,12 +58,12 @@ extern "C" {
 
 #include "toolbox-flexstring.h"
 #include "toolbox-config.h"
-#include "toolbox-text-buffer-reader.h"
 #include "toolbox-filesystem.h"
 
 #if C_TOOLBOX_CHARARRAY == 1
 #include "toolbox-line-parser.h"
 #include "toolbox-char-array.h"
+#include "toolbox-text-buffer-reader.h"
 typedef struct configArray
 {
 	int row_amount;
@@ -72,15 +72,6 @@ typedef struct configArray
 	charArray ** array;
 	int cell_length;
 } configArray;
-
-typedef struct configArrayW
-{
-	int row_amount;
-	int row_amount_max;
-	int index; // current index
-	charArrayW ** array;
-	int cell_length;
-} configArrayW;
 #endif 
 
    

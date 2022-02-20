@@ -29,7 +29,12 @@ then right click on top panel and add "showip"
 
 #include <lxpanel/plugin.h>
 
-#include <stdio.h>
+#include <stdio.h>  
+#include <sys/types.h>
+#include <ifaddrs.h>
+#include <netinet/in.h> 
+#include <arpa/inet.h>
+
 #include "toolbox.h"
 
 // internal to the plugin source, not used by the 'priv' variable
@@ -47,13 +52,10 @@ typedef struct
 
 static void update_display(ShowIp *pPlugin)
 {
-	char buffer [60];
-	int i, iret;
-	int temp;
 	GdkColor color;
-	gchar *separator;
-	
-	char ip[256];
+	//gchar *separator;
+
+	char ip[256];	/*
 	char mac[256];
 	char subnet[256];
 	char broadcast[256];
@@ -65,9 +67,58 @@ static void update_display(ShowIp *pPlugin)
 	char TX_bytes[256];
 	char collisions[256];
 	char ifconfig[20000] = "";
-	printf("=eth0:");
-	C_GetNetworkInformation(ip, subnet, broadcast, mac, RX_packets, RX_errors, RX_bytes, TX_packets, TX_errors, TX_bytes, collisions, ifconfig, sizeof(ifconfig), NULL);
-	printf("ip(%s)\n",ip);
+	printf("=eth0:");*/
+	//C_GetNetworkInformation(ip, subnet, broadcast, mac, RX_packets, RX_errors, RX_bytes, TX_packets, TX_errors, TX_bytes, collisions, ifconfig, sizeof(ifconfig), NULL);
+	
+	struct ifaddrs * ifAddrStruct=NULL;
+    struct ifaddrs * ifa=NULL;
+    void * tmpAddrPtr=NULL;
+
+    getifaddrs(&ifAddrStruct);
+
+    for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) 
+    {
+        if (!ifa->ifa_addr) 
+        {
+            continue;
+        }
+        if (ifa->ifa_addr->sa_family == AF_INET) // check it is IP4
+        { 
+            tmpAddrPtr=&((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
+            char addressBuffer[INET_ADDRSTRLEN];
+            inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
+            printf("%s IP Address %s\n", ifa->ifa_name, addressBuffer);
+            if (strcmp(ifa->ifa_name, "lo") != 0)
+            {
+                strncpy(ip, addressBuffer, sizeof(ip)-1);
+		    }
+        }
+    }
+    
+    // loop ipv6 if we couldnt find ipv4 eth0
+    if (ip[0] == '\0') for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) 
+    {
+        if (!ifa->ifa_addr) 
+        {
+            continue;
+        }
+        
+        if (ifa->ifa_addr->sa_family == AF_INET6) 
+        {
+            tmpAddrPtr=&((struct sockaddr_in6 *)ifa->ifa_addr)->sin6_addr;
+            char addressBuffer[INET6_ADDRSTRLEN];
+            inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
+            printf("%s IP Address %s\n", ifa->ifa_name, addressBuffer); 
+            if (strcmp(ifa->ifa_name, "lo") != 0)
+            {
+                strncpy(ip, addressBuffer, sizeof(ip)-1);
+		    }
+        } 
+    }
+    
+    if (ifAddrStruct!=NULL) freeifaddrs(ifAddrStruct);
+    
+	printf("ip(%s)\n",ip);/*
 	printf("subnet(%s)\n",subnet);
 	printf("broadcast(%s)\n",broadcast);
 	printf("mac(%s)\n",mac);
@@ -77,7 +128,8 @@ static void update_display(ShowIp *pPlugin)
 	printf("TX_packets(%s)\n",TX_packets);
 	printf("TX_errors(%s)\n",TX_errors);
 	printf("TX_bytes(%s)\n",TX_bytes);
-	printf("collisions(%s)\n",collisions);
+	printf("collisions(%s)\n",collisions);*/
+	/*
 	if (ip[0] == '\0')
 	{
 		printf("=wlan0:");
@@ -101,14 +153,25 @@ static void update_display(ShowIp *pPlugin)
 			printf("collisions(%s)\n",collisions);
 		}
 	}
+ */
+    if (ip[0] == '\0')
+    {
+		 strcpy(ip, "No IP found");	
+	}
+	//lxpanel_draw_label_text(pPlugin->panel, pPlugin->gLabel, ip, TRUE, 2, TRUE);
 	
-	lxpanel_draw_label_text(pPlugin->panel, pPlugin->gLabel, ip, TRUE, 1, TRUE);
+    gdk_color_parse("#FF80FF", &color);
+    color.pixel = 1;
+    color.green = 255;
+    color.blue = 155;
+    color.red = 100;
+	lxpanel_draw_label_text_with_color(pPlugin->panel, pPlugin->gLabel, ip, TRUE, 1.3, &color);
 /*
 		snprintf(buffer, sizeof(buffer), "<span color=\"#%06x\"><b>%02d</b></span>",
 				 gcolor2rgb24(&color), temp);
 		gtk_label_set_markup (GTK_LABEL(th->namew), buffer) ;
 */
-	gtk_widget_set_tooltip_text(pPlugin->gLabel, "tooltip");
+	gtk_widget_set_tooltip_text(pPlugin->gLabel, "tooltip"); // FIXME write which interface
 }
 
 static gboolean update_display_timeout(gpointer user_data)

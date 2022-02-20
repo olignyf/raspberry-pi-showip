@@ -33,7 +33,7 @@ def main():
     beginTime = time.time()
     
     # old pi3 call(["cp", "showip.so", "/usr/lib/arm-linux-gnueabihf/lxpanel/plugins/"])
-    call(["cp", "showip.so", "/usr/lib/aarch64-linux-gnu/lxpanel/plugins"])
+    call(["cp", "showip.so", "/usr/lib/aarch64-linux-gnu/lxpanel/plugins/"])
     print('after copying');
     CONFIG = None
     PATH = "/etc/xdg/lxpanel/LXDE/panels/panel"

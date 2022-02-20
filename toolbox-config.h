@@ -3,7 +3,7 @@
 
 /////////////// TOOLBOX_Toolbox Configurations ///////////////
 
-#define C_TOOLBOX_CHARARRAY 1
+#define C_TOOLBOX_CHARARRAY 0
 #define C_TOOLBOX_NETWORK 0
 #define C_TOOLBOX_HTTP_CLIENT 0
 #define C_TOOLBOX_SOCKET_SERVER 0

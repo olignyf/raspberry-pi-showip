@@ -24,6 +24,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <ctype.h>
 
 #include "toolbox.h"
@@ -1381,10 +1382,8 @@ int C_System(const char * command, char ** insider, int * status)
 	//char temp[256];
 	int fret = 1;
 	static char result[RESULT_SIZE];
-	unsigned int result_written = 0;
 
 	result[0] = '\0';
-	result_written = 0;
 
 	result[RESULT_SIZE-1] =- '\0';
 
@@ -1676,7 +1675,7 @@ int C_GetNetworkInformation(char * machine_ip,
 		}
 	}
     
-	iret = charArray_getLineThatMatches(&array, "inet addr:", &borrowed);
+	iret = charArray_getLineThatMatches(&array, "inet ", &borrowed);
 	if ( iret && borrowed )
 	{
 		strcpy(line,borrowed);
@@ -2074,10 +2073,8 @@ int C_Sleep(int milliseconds)
 	return 1;
 }
 
-static const char * const g_rand_source_alphanum = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static const char * const g_rand_source_alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static const char * const g_rand_source_num = "0123456789";
-static const char * const g_rand_source_num_nozero = "123456789123456789";
 static int g_srand_done = 0;
 // will write length char in toload + '\0', thus toload must be at least length+1 big
 int C_Random_alpha(int length, char * toload, int buffer_size)
@@ -2402,7 +2399,6 @@ unsigned int C_Timestamp()
 // written 30.Jul.2007
 int C_getCompileDate(char * string, int string_size)
 {
-	char temp[32];
 	char date[32] = __DATE__;
 	char * month = NULL;
 	char * day = NULL;
@@ -2418,10 +2414,8 @@ int C_getCompileDate(char * string, int string_size)
 		return TOOLBOX_ERROR_YOU_PASSED_A_BUFFER_TOO_SMALL;
 	}
 
-	temp[0] = '\0';
-	temp[31] = '\0';
 	string[0] = '\0';
-	string[31] = '\0';
+	string[sizeof(string)-1] = '\0';
 	strRet = strchr(date, ' ');
 	month = &date[0];
 
@@ -2440,7 +2434,6 @@ int C_getCompileDate(char * string, int string_size)
 		}
 	}
 	snprintf(string, 31, "%s.%s.%s", day, month, year);
-	//sprintf(temp, "Build Date: %s", frank_date);
 
 	return 1;
 }
