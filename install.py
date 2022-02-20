@@ -36,7 +36,7 @@ def main():
     call(["cp", "showip.so", "/usr/lib/aarch64-linux-gnu/lxpanel/plugins/"])
     print('after copying');
     CONFIG = None
-    PATH = "/etc/xdg/lxpanel/LXDE/panels/panel"
+    PATH = "/home/pi/.config/lxpanel/LXDE-pi/panels/panel"
     try:
         # 
         CONFIG = open(PATH, 'r').read() 
@@ -44,21 +44,19 @@ def main():
         print('FIRST FAIL OPENING CONFIG') # no problem yet
     print('after first read');
     print(CONFIG);
-    if CONFIG == None:
-        try:
-            PATH = "/etc/xdg/lxpanel/LXDE-pi/panels/panel"
-            CONFIG = open(PATH, 'r').read() 
-        except:
-            print ("Failed to open LXDE-pi/panels/panel"); 
-            return -1
     
+    if (CONFIG == '' or CONFIG == None):
+        print('ERROR: failed to open lx panel config');
+        exit(1);
+    
+        
     MYPLUGIN = 'Plugin {\n  type=showip\n  Config {\n  }\n}'
     index = CONFIG.find(MYPLUGIN)
     if index >= 0:
         print ('Already done')
         return 0
     print(CONFIG)
-    CONFIG = common.ReplaceBetween(CONFIG, 'VolumeUpKey = XF86AudioRaiseVolume\n    }\n}\n', 'Plugin {\n    type = tray\n}\n', MYPLUGIN+"\n")
+    CONFIG = common.ReplaceBetween(CONFIG, 'type=tray\n  Config {\n  }\n}\n', 'Plugin {\n', MYPLUGIN+"\n")
     
     if (CONFIG == '' or CONFIG == None):
         print('ERROR: failed to parse config');
@@ -72,7 +70,7 @@ def main():
      
     # produce report
     elapsedTime = time.time() - beginTime
-    print ("[FINISH] elapsedTime:" + str(elapsedTime)  )
+    print ("[FINISHED] elapsedTime:" + str(elapsedTime)  )
 
 if __name__ == '__main__':
     main()
