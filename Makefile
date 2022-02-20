@@ -6,7 +6,7 @@ SRC=$(wildcard toolbox-*.c)
 
 CFLAGS+=-D_FILE_OFFSET_BITS=64 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include
 
-LDFLAGS+=-L../ -L/usr/lib/aarch64-linux-gnu/lxpanel/
+LDFLAGS+=-L../ -L/usr/lib/aarch64-linux-gnu/lxpanel/ -L/usr/lib/arm-linux-gnueabihf/lxpanel/
 
 OBJS = standalone.o
 OBJS+= toolbox-filesystem.o

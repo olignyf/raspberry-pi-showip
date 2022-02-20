@@ -42,6 +42,17 @@ $> sudo python install.py
 $> cat /home/pi/.cache/lxsession/LXDE-pi/run.log
 ```
 
+You can check if all the libraries are found with 
+```
+$> ldd /usr/lib/aarch64-linux-gnu/lxpanel/plugins/showip.so 
+(...)
+liblxpanel.so.0 => not found
+```
+If for example liblxpanel.so.0 is not found like above, it's a problem
+
+
+
+
 # pisetup
 showip is also part of pisetup
 https://github.com/olignyf/pisetup

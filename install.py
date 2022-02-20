@@ -32,17 +32,25 @@ def main():
     
     beginTime = time.time()
     
-    # old pi3 call(["cp", "showip.so", "/usr/lib/arm-linux-gnueabihf/lxpanel/plugins/"])
-    call(["cp", "showip.so", "/usr/lib/aarch64-linux-gnu/lxpanel/plugins/"])
+    # pi3
+    if os.path.isfile('/usr/lib/aarch64-linux-gnu/lxpanel/plugins/'):
+        call(["cp", "showip.so", "/usr/lib/aarch64-linux-gnu/lxpanel/plugins/"])
+    else:
+        call(["cp", "showip.so", "/usr/lib/arm-linux-gnueabihf/lxpanel/plugins/"])
     print('after copying');
     CONFIG = None
+    
     PATH = "/home/pi/.config/lxpanel/LXDE-pi/panels/panel"
+    if not os.path.isfile(PATH):
+        PATH = '/etc/xdg/lxpanel/LXDE/panels/panel'
+        
     try:
         # 
         CONFIG = open(PATH, 'r').read() 
     except:
-        print('FIRST FAIL OPENING CONFIG') # no problem yet
-    print('after first read');
+        print('Failed opening lxpanel config') # no problem yet
+        
+    print('Config content:\n');
     print(CONFIG);
     
     if (CONFIG == '' or CONFIG == None):
@@ -56,11 +64,16 @@ def main():
         print ('Already done')
         return 0
     print(CONFIG)
-    CONFIG = common.ReplaceBetween(CONFIG, 'type=tray\n  Config {\n  }\n}\n', 'Plugin {\n', MYPLUGIN+"\n")
+    TEST = common.ReplaceBetween(CONFIG, 'type=tray\n  Config {\n  }\n}\n', 'Plugin {\n', MYPLUGIN+"\n")
     
-    if (CONFIG == '' or CONFIG == None):
+    if (TEST == '' or TEST == None):
+        TEST = common.ReplaceBetween(CONFIG, 'VolumeUpKey = XF86AudioRaiseVolume\n    }\n}\n', 'Plugin {\n    type = tray\n}\n', MYPLUGIN+"\n")
+    
+    if (TEST == '' or TEST == None):
         print('ERROR: failed to parse config');
         exit(1);
+
+    CONFIG = TEST
     
     f = open(PATH, "w")
     f.write(CONFIG)
