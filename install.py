@@ -43,7 +43,7 @@ def main():
     PATH = "/home/pi/.config/lxpanel/LXDE-pi/panels/panel"
     if not os.path.isfile(PATH):
         print('Selecting global panel config')
-        PATH = '/etc/xdg/lxpanel/LXDE/panels/panel'
+        PATH = '/etc/xdg/lxpanel/LXDE-pi/panels/panel'
         
     try:
         # 
