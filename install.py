@@ -33,7 +33,7 @@ def main():
     beginTime = time.time()
     
     # pi3
-    if os.path.isfile('/usr/lib/aarch64-linux-gnu/lxpanel/plugins/'):
+    if os.path.isdir('/usr/lib/aarch64-linux-gnu/lxpanel/plugins/'):
         call(["cp", "showip.so", "/usr/lib/aarch64-linux-gnu/lxpanel/plugins/"])
     else:
         call(["cp", "showip.so", "/usr/lib/arm-linux-gnueabihf/lxpanel/plugins/"])
@@ -42,6 +42,7 @@ def main():
     
     PATH = "/home/pi/.config/lxpanel/LXDE-pi/panels/panel"
     if not os.path.isfile(PATH):
+        print('Selecting global panel config')
         PATH = '/etc/xdg/lxpanel/LXDE/panels/panel'
         
     try:
@@ -62,6 +63,7 @@ def main():
     index = CONFIG.find(MYPLUGIN)
     if index >= 0:
         print ('Already done')
+        call(["lxpanelctl", "restart"])
         return 0
     print(CONFIG)
     TEST = common.ReplaceBetween(CONFIG, 'type=tray\n  Config {\n  }\n}\n', 'Plugin {\n', MYPLUGIN+"\n")
